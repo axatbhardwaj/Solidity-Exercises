@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: BUSL-1.1
 pragma solidity ^0.8.13;
 
+error NoMoreCallsAllowedInThisBlock(uint256);
+
 contract BlockNumber {
     /**
      * In this exercise the function lastCaller stores the address of the caller of the function in the lastCaller stateVariable
@@ -10,8 +12,16 @@ contract BlockNumber {
      */
 
     address public lastCaller;
+    uint256 public lastCallerBlockNo;
 
     function callMe() external {
+        if(lastCallerBlockNo==block.number)
+        {
+            revert NoMoreCallsAllowedInThisBlock(block.number);
+        }
         /// your code here
+        lastCallerBlockNo=block.number;
+        lastCaller= msg.sender;
+
     }
 }
