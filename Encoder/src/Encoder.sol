@@ -8,8 +8,11 @@ contract Encoder {
     */
     bytes public encoded;
 
-    function createEncodedData(
+    function createEncodedData  (
         string memory _word,
         uint256 _num
-    ) public returns (bytes memory) {}
+    ) public returns (bytes memory) {
+        encoded = abi.encode(_word,_num);
+        return encoded;
+    }
 }

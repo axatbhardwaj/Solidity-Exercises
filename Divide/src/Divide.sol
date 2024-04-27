@@ -9,8 +9,10 @@ contract Divide {
      * Make it return the right value.
      */
 
+    uint256  constant eighteen = 10e18; 
+
     function calculateInterest(uint256 amount) external pure returns (uint256) {
-        uint256 x = (PERCENTAGE_INTEREST / 100) * amount;
+        uint256 x = (((PERCENTAGE_INTEREST * eighteen )/ 100) * amount) / eighteen;
         return x;
     }
 }
