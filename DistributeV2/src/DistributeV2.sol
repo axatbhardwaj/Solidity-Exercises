@@ -13,7 +13,15 @@ contract DistributeV2 {
 
     constructor() payable {}
 
-    function distributeEther(address[] memory addresses) public {
-        // your code here
+    function distributeEther(address[] calldata addresses) public {
+        uint256 noOfAddresses = addresses.length;
+        uint256 blanceOfContract = address(this).balance;
+
+        uint256 shareToSend = ((blanceOfContract * 10 ** 18)/noOfAddresses)/10 ** 18;
+
+        for(uint256 i=0; i<noOfAddresses ;i++)
+        {
+            bool success= payable(addresses[i]).send(shareToSend);
+        }
     }
 }
