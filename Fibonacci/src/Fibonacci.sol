@@ -26,8 +26,8 @@ contract Fibonacci {
                 intStorage[1] = intStorage[2];
                 i++;
             }
-
             return intStorage[2];
+            
         }
     }
 }
