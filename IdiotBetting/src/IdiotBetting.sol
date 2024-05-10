@@ -1,6 +1,10 @@
 // SPDX-License-Identifier: BUSL-1.1
 pragma solidity ^0.8.13;
 
+error notHighestBidder(address);
+error timeLeft(uint256);
+
+
 contract IdiotBettingGame {
     /*
         This exercise assumes you know how block.timestamp works.
@@ -13,11 +17,33 @@ contract IdiotBettingGame {
            period has ended. It transfers the entire balance of the contract to the winner.
     */
 
+   event Bet(address, uint256 ,uint256);
+
+   uint256 endTime;
+   uint256 highestBid ;
+   address highestBidder;
+ 
+
     function bet() public payable {
         // your code here
+        if (msg.value > highestBid ) {
+            highestBid = msg.value;
+            highestBidder = msg.sender;
+            endTime = block.timestamp + 1 hours;
+        }
+
+        emit Bet(msg.sender,msg.value,block.timestamp);
+
     }
 
     function claimPrize() public {
-        // your code here
+        if (msg.sender != highestBidder) {
+            revert notHighestBidder(msg.sender);
+        }else if (block.timestamp < endTime) {
+            revert timeLeft(endTime-block.timestamp);
+        }else {    
+        payable(highestBidder).transfer(address(this).balance);
+        }
+        
     }
 }
