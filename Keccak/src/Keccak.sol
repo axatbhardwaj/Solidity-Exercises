@@ -8,5 +8,7 @@ contract Keccak {
 
     function keccak(uint256 x) external pure returns (bytes32) {
         // your code here
+        bytes32 hash = keccak256(abi.encode(x));     
+        return  hash;
     }
 }
